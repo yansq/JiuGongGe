@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <stdlib.h>  
+#include <memory.h>  
+#include <pthread.h>  
+#include <errno.h>  
+#include <math.h>  
+//筷子作为mutex  
+pthread_mutex_t chop[6];
+void *action(void *arg)
+{
+	char phi = *(char *)arg;
+	int left, right_number; //左右筷子的编号  
+	switch (phi){
+	case 'A':
+		left = 5;
+		right_number = 1;
+		break;
+	case 'B':
+		left = 1;
+		right_number = 2;
+		break;
+	case 'C':
+		left = 2;
+		right_number = 3;
+		break;
+	case 'D':
+		left = 3;
+		right_number = 4;
+		break;
+	case 'E':
+		left = 4;
+		right_number = 5;
+		break;
+	}
+
+	int i;
+	if (right_number % 2 == 1){
+		for (;;){
+			printf("Philosopher %c is thinking\n", phi);
+			sleep(1); //思考
+			pthread_mutex_lock(&chop[left]); //拿起左手的筷子  
+			printf("Philosopher %c uses chopstick %d\n", phi, left);
+			pthread_mutex_lock(&chop[right_number]); //拿起右手的筷子  
+			printf("Philosopher %c uses chopstick %d\n", phi, right_number);
+			printf("Philosopher %c is eating\n", phi);
+			sleep(1); //吃饭  
+			pthread_mutex_unlock(&chop[left]); //放下左手的筷子  
+			printf("Philosopher %c releases chopstick %d\n", phi, left);
+			pthread_mutex_unlock(&chop[right_number]); //放下右手的筷子  
+			printf("Philosopher %c releases chopstick %d\n", phi, right_number);
+
+		}
+	}
+	else{
+		for (;;){
+			printf("Philosopher %c is thinking\n", phi);
+			sleep(1); //思考
+			pthread_mutex_lock(&chop[right_number]); //拿起右手的筷子  
+			printf("Philosopher %c uses chopstick %d\n", phi, right_number);
+			pthread_mutex_lock(&chop[left]); //拿起左手的筷子
+			printf("Philosopher %c uses chopstick %d\n", phi, left);
+			printf("Philosopher %c is eating\n", phi);
+			sleep(1); //吃饭  
+			pthread_mutex_unlock(&chop[right_number]); //放下右手的筷子  
+			printf("Philosopher %c releases chopstick %d\n", phi, right_number);
+			pthread_mutex_unlock(&chop[left]); //放下左手的筷子  
+			printf("Philosopher %c releases chopstick %d\n", phi, left
+				);
+
+		}
+	}
+}
+int main(){
+	pthread_t A, B, C, D, E; //5个哲学家  
+
+	int i;
+	for (i = 0; i < 5; i++) {
+		pthread_mutex_init(&chop[i], NULL);
+	}
+	pthread_create(&A, NULL, action , "A");
+	pthread_create(&B, NULL, action, "B");
+	pthread_create(&C, NULL, action, "C");
+	pthread_create(&D, NULL, action, "D");
+	pthread_create(&E, NULL, action, "E");
+
+	pthread_join(A, NULL);
+	pthread_join(B, NULL);
+	pthread_join(C, NULL);
+	pthread_join(D, NULL);
+	pthread_join(E, NULL);
+	return 0;
+}
