@@ -28,15 +28,32 @@
   ...
   end
   
-  for循环
-  for i=0,3,1 do        //小于等于3,  ,1可省略
+  for循环:
+  for i=0,3,1 do        --小于等于3,  ,1可省略
   print(i)
-  end                 //1 2 3
+  end                 --1 2 3
   
   for i=4,1,-1 do
   print(i)
-  end                //3 2 1
+  end                --3 2 1
   
-  
-  
-  
+  泛型遍历：
+  a{
+  [aa]=1;
+  [2]=true;
+  }
+  for k,v in pairs(a) do
+    print(k,v)                                  --[输出结果  2 true    
+  end                                                       aa 1
+                                                ipairs 输出数组下标和数值   **输出顺序没有保证**]
+                                                
+包：
+local c=require("loo")      --调用loo.lua文件
+
+#：
+得到长度
+
+type（）：
+读取类型
+
+string.format()    --使用转义字符
