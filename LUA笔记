@@ -1,0 +1,29 @@
+函数：
+  funciton  s（a,b）
+  return a+b
+  end
+  
+字符拼接
+  print（“hello”.."world"）
+  
+局部变量(使用local 会增加性能)
+  local a=1
+   
+数组：
+  a{
+  [sss]=1
+  }
+  
+  a.[sss]=1
+  
+  判断：
+  if then
+  ...
+  else
+  ...
+  end
+  
+  循环：
+  while  判断  do
+  ...
+  end
