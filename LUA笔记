@@ -27,3 +27,16 @@
   while  判断  do
   ...
   end
+  
+  for循环
+  for i=0,3,1 do        //小于等于3,  ,1可省略
+  print(i)
+  end                 //1 2 3
+  
+  for i=4,1,-1 do
+  print(i)
+  end                //3 2 1
+  
+  
+  
+  
